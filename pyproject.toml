@@ -1,0 +1,6 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# rootdir = "."
+pythonpath = ["."]
+addopts = ["--verbose"]
+# console_output_style = "count"
