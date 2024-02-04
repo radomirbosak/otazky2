@@ -1,9 +1,7 @@
 from pathlib import Path
 from unittest.mock import Mock
 
-from pytest import fixture
-from pytest import mark
-
+from pytest import fixture, mark
 
 from brain import Brain, Environment
 
@@ -38,4 +36,5 @@ def test_something(brain, scenario):
         else:
             assert said != [], f"expected line {test_line}, nothing was said."
             said_line = said.pop()
-            assert said_line == test_line, f"said line '{said_line}' does not match expected '{test_line}'"
+            err_msg = f"said line '{said_line}' does not match expected '{test_line}'"
+            assert said_line == test_line, err_msg

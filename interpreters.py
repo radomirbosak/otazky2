@@ -1,4 +1,4 @@
-from intents import CorrectionIntent, CleanSlateIntent, ExitIntent
+from intents import CleanSlateIntent, CorrectionIntent, ExitIntent
 
 
 class Interpreter:

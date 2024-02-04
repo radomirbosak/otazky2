@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+
 from brain import Brain
 
 
@@ -20,7 +21,6 @@ def main():
         print(">", line)
         bot.last_message = line
         bot.react()
-
 
 
 if __name__ == "__main__":

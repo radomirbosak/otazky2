@@ -1,15 +1,13 @@
-
-
 import sys
+
 from termcolor import cprint
 
+from intents import CleanSlateIntent, CorrectionIntent, ExitIntent, NoIntent
 from interpreters import HardMapInterpreter
-from intents import ExitIntent, NoIntent, CorrectionIntent, CleanSlateIntent
 
 
 def exit():
     sys.exit()
-
 
 
 def interpret(brain):
@@ -18,7 +16,7 @@ def interpret(brain):
     intent = brain.hardmap_intepreter.interpret()
     if intent is not None:
         return intent
-    
+
     # 2. give up
     return None
 
@@ -38,7 +36,6 @@ def act(brain, intent):
 
 
 class Environment:
-
     def __init__(self):
         self.said_lines = []
 
@@ -59,7 +56,12 @@ class Brain:
         self.dead = False
         self.mem = {}
         self.last_message = None
-        self.known_intents = [ExitIntent(), NoIntent(), CorrectionIntent(), CleanSlateIntent()]
+        self.known_intents = [
+            ExitIntent(),
+            NoIntent(),
+            CorrectionIntent(),
+            CleanSlateIntent(),
+        ]
         self.known_functions = [exit]
         self.interpret = interpret
         self.act = act

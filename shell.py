@@ -4,17 +4,13 @@
 from brain import Brain, Environment
 
 
-
 def main():
     env = Environment()
     brain = Brain(env)
 
-
     while not brain.dead:
         prompt = input("> ")
         brain.last_message = prompt
-        # find intent
-        # execute intent
         brain.react()
 
 
