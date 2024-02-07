@@ -4,6 +4,7 @@ from pathlib import Path
 from pytest import fixture, mark
 
 from otazky.brain import Brain, Environment
+from otazky.replay import validate_scenario_file
 
 
 @fixture
@@ -38,3 +39,8 @@ def test_something(brain, scenario):
             said_line = said.pop()
             err_msg = f"said line '{said_line}' does not match expected '{test_line}'"
             assert said_line == test_line, err_msg
+
+
+def test_replay(brain):
+    filename = Path("tests/") / "exit.test"
+    validate_scenario_file(filename, brain)
