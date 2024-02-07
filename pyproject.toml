@@ -4,3 +4,13 @@ testpaths = ["tests"]
 pythonpath = ["."]
 addopts = ["--verbose"]
 # console_output_style = "count"
+
+[tool.pylint]
+disable = [
+	"missing-function-docstring",
+	"missing-module-docstring",
+	"import-error",
+	"missing-class-docstring",
+	"too-few-public-methods",
+	"too-many-instance-attributes",
+]

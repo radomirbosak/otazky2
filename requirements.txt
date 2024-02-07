@@ -1,2 +1,4 @@
 termcolor==2.4.0
 pytest
+black
+isort

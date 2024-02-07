@@ -1,13 +1,7 @@
-import sys
-
 from termcolor import cprint
 
-from intents import CleanSlateIntent, CorrectionIntent, ExitIntent, NoIntent
-from interpreters import HardMapInterpreter
-
-
-def exit():
-    sys.exit()
+from .intents import CleanSlateIntent, CorrectionIntent, ExitIntent, NoIntent
+from .interpreters import HardMapInterpreter
 
 
 def interpret(brain):
@@ -31,8 +25,7 @@ def act(brain, intent):
         intent.action(brain)
         return
 
-    else:
-        brain.say(f"Sorry, I don't know how to act on intent {intent}")
+    brain.say(f"Sorry, I don't know how to act on intent {intent}")
 
 
 class Environment:
@@ -62,7 +55,7 @@ class Brain:
             CorrectionIntent(),
             CleanSlateIntent(),
         ]
-        self.known_functions = [exit]
+        self.known_functions = []
         self.interpret = interpret
         self.act = act
         self.interpreters = []

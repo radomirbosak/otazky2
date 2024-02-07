@@ -1,4 +1,4 @@
-from intents import CleanSlateIntent, CorrectionIntent, ExitIntent
+from .intents import CleanSlateIntent, CorrectionIntent, ExitIntent
 
 
 class Interpreter:
@@ -24,6 +24,7 @@ class HardMapInterpreter(Interpreter):
             if self.brain.last_message in hardmap:
                 self.brain.think("Found intent in mem['last_message_intent_hardmap']")
                 return hardmap[self.brain.last_message]
+        return None
 
     def __eq__(self, other):
         return self.__class__ == other.__class__

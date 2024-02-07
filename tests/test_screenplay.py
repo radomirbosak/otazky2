@@ -1,9 +1,9 @@
+# pylint: disable=redefined-outer-name
 from pathlib import Path
-from unittest.mock import Mock
 
 from pytest import fixture, mark
 
-from brain import Brain, Environment
+from otazky.brain import Brain, Environment
 
 
 @fixture
@@ -34,7 +34,7 @@ def test_something(brain, scenario):
             brain.react()
             said = brain.env.said_lines.copy()
         else:
-            assert said != [], f"expected line {test_line}, nothing was said."
+            assert said, f"expected line {test_line}, nothing was said."
             said_line = said.pop()
             err_msg = f"said line '{said_line}' does not match expected '{test_line}'"
             assert said_line == test_line, err_msg
