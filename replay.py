@@ -20,6 +20,7 @@ def main():
     brain = Brain(env)
 
     validate_scenario_file(args.prompt_file, brain)
+    print("The replay ended successfully!")
 
 
 if __name__ == "__main__":
