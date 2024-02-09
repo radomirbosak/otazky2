@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from pathlib import Path
 
-from .brain import Brain
+from .brain import Brain, Environment
 
 
 class ScenarioLineType(Enum):
@@ -54,26 +54,29 @@ def validate_scenario(scenario: list[ScenarioLine], brain):
     said = []
     for scline in scenario:
         text = scline.line
+
+        # is there are unconsumed brain texts, the next scenario line must be BRAIN_REPLY and must match
+        if said:
+            said_line = said.pop(0)
+            if scline.type != ScenarioLineType.BRAIN_REPLY:
+                raise ValidationError(f"Expecting brain reply {said_line}")
+            if said_line != text:
+                err_msg = f"Said line '{said_line}' does not match expected {text}"
+                raise ValidationError(err_msg)
+            continue  # brain reply matched, go to next line
+
+        # all brain replies were consumed
         match scline.type:
             case ScenarioLineType.USER_PROMPT:
-                if said:
-                    raise ValidationError("Expecting user prompt, got lines")
                 brain.last_message = text
                 brain.react()
                 said = brain.env.said_lines.copy()
 
             case ScenarioLineType.BRAIN_REPLY:
-                if not said:
-                    raise ValidationError("Expected lines, got none")
-                said_line = said.pop(0)
-                if said_line != text:
-                    err_msg = f"Said line '{said_line}' does not match expected {text}"
-                    raise ValidationError(err_msg)
+                raise ValidationError("Expected lines, got none")
 
             case ScenarioLineType.META_SIGN:
                 if text == "dead":
-                    if said:
-                        raise ValidationError("Expecting [dead], got lines")
                     if not brain.dead:
                         raise ValidationError("Expecting [dead], not dead.")
             case _:
@@ -89,7 +92,8 @@ def parse_args():
 def main():
     args = parse_args()
 
-    bot = Brain()
+    env = Environment()
+    bot = Brain(env)
 
     for line in args.prompt_file:
         line = line.rstrip("\n")

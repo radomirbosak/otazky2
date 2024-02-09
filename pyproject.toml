@@ -13,4 +13,5 @@ disable = [
 	"missing-class-docstring",
 	"too-few-public-methods",
 	"too-many-instance-attributes",
+	"line-too-long",
 ]
