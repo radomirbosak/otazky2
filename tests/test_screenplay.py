@@ -4,7 +4,7 @@ from pathlib import Path
 from pytest import fixture, mark
 
 from otazky.brain import Brain, Environment
-from otazky.replay import validate_scenario_file
+from otazky.scenario import validate_scenario_file
 
 
 @fixture

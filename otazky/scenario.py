@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 
-import argparse
 from dataclasses import dataclass
 from enum import Enum, auto
 from pathlib import Path
-
-from .brain import Brain, Environment
 
 
 class ScenarioLineType(Enum):
@@ -81,26 +78,3 @@ def validate_scenario(scenario: list[ScenarioLine], brain):
                         raise ValidationError("Expecting [dead], not dead.")
             case _:
                 assert False, "Unknown line type"
-
-
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("prompt_file", type=argparse.FileType("r"))
-    return parser.parse_args()
-
-
-def main():
-    args = parse_args()
-
-    env = Environment()
-    bot = Brain(env)
-
-    for line in args.prompt_file:
-        line = line.rstrip("\n")
-        print(">", line)
-        bot.last_message = line
-        bot.react()
-
-
-if __name__ == "__main__":
-    main()
