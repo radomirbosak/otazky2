@@ -1,4 +1,5 @@
 from .intents import CleanSlateIntent, CorrectionIntent, ExitIntent
+from .modules import Module
 
 
 class Interpreter:
@@ -6,12 +7,8 @@ class Interpreter:
         brain.interpreters.append(self)
 
 
-class HardMapInterpreter(Interpreter):
-    def __init__(self, brain):
-        super().__init__(brain)
-        self.brain = brain
-
-    def init_brain(self):
+class HardMapInterpreter(Module):
+    def init_module(self):
         self.brain.mem["last_message_intent_hardmap"] = {
             "bad": CorrectionIntent(),
             "btw": CleanSlateIntent(),

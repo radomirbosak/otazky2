@@ -7,9 +7,13 @@ from .interpreters import HardMapInterpreter
 def interpret(brain):
     """Meta-interpreting function"""
     # 1. last message-intent hardmap
-    intent = brain.hardmap_intepreter.interpret()
-    if intent is not None:
-        return intent
+    for module in brain.modules:
+        intent = module.interpret()
+        if intent is not None:
+            return intent
+    # intent = brain.hardmap_intepreter.interpret()
+    # if intent is not None:
+    #     return intent
 
     # 2. give up
     return None
@@ -58,16 +62,15 @@ class Brain:
         self.known_functions = []
         self.interpret = interpret
         self.act = act
-        self.interpreters = []
+        self.modules = []
 
         # interpreters
         self.hardmap_intepreter = HardMapInterpreter(self)
-        # self.hardmap_intepreter.init_brain()
         self.init_modules()
 
     def init_modules(self):
-        for interpreter in self.interpreters:
-            interpreter.init_brain()
+        for interpreter in self.modules:
+            interpreter.init_module()
 
     def react(self):
         # find intent
