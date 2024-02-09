@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-from .brain import Brain, Environment
+from otazky.brain import Brain, Environment
 
 
 def main():
