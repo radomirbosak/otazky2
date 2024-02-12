@@ -1,4 +1,3 @@
-from .intents import CleanSlateIntent, CorrectionIntent, ExitIntent
 from .modules import Module
 
 
@@ -10,9 +9,9 @@ class Interpreter:
 class HardMapInterpreter(Module):
     def init_module(self):
         self.brain.mem["last_message_intent_hardmap"] = {
-            "bad": CorrectionIntent(),
-            "btw": CleanSlateIntent(),
-            "exit": ExitIntent(),
+            "bad": "Correction",
+            "btw": "CleanSlate",
+            "exit": "Exit",
         }
 
     def interpret(self):
@@ -25,3 +24,14 @@ class HardMapInterpreter(Module):
 
     def __eq__(self, other):
         return self.__class__ == other.__class__
+
+
+class ExitActor(Module):
+    def can_act(self, intent):
+        return intent == "Exit"
+
+    def act(self, intent):
+        if not self.can_act(intent):
+            return
+        self.brain.think("Exiting")
+        self.brain.dead = True

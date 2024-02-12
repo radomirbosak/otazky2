@@ -9,5 +9,8 @@ class Module:
     def interpret(self):
         """Convert brain state (e.g. last_prompt) into Intent"""
 
+    def can_act(self, intent) -> bool:
+        """Returns whether this module can act on this intent"""
+
     def act(self, intent):
         """Execute intent"""

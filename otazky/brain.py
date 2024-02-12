@@ -1,7 +1,6 @@
 from termcolor import cprint
 
-from .intents import CleanSlateIntent, CorrectionIntent, ExitIntent, NoIntent
-from .interpreters import HardMapInterpreter
+from .interpreters import ExitActor, HardMapInterpreter
 
 
 def interpret(brain):
@@ -25,11 +24,22 @@ def act(brain, intent):
         brain.say("Sorry, I was not able to understand your intent.")
         return
 
-    if hasattr(intent, "action"):
-        intent.action(brain)
+    actionable_modules = []
+    for module in brain.modules:
+        if module.can_act(intent):
+            actionable_modules.append(module)
+
+    if not actionable_modules:
+        brain.say(f"Sorry, I don't know how to act on intent {intent}")
         return
 
-    brain.say(f"Sorry, I don't know how to act on intent {intent}")
+    if len(actionable_modules) >= 2:
+        brain.think(
+            "Two or more modules can act on this intent. I will pick the first one."
+        )
+
+    winner_module = actionable_modules[0]
+    winner_module.act(intent)
 
 
 class Environment:
@@ -53,12 +63,6 @@ class Brain:
         self.dead = False
         self.mem = {}
         self.last_message = None
-        self.known_intents = [
-            ExitIntent(),
-            NoIntent(),
-            CorrectionIntent(),
-            CleanSlateIntent(),
-        ]
         self.known_functions = []
         self.interpret = interpret
         self.act = act
@@ -66,6 +70,7 @@ class Brain:
 
         # interpreters
         self.hardmap_intepreter = HardMapInterpreter(self)
+        self.exit_actor = ExitActor(self)
         self.init_modules()
 
     def init_modules(self):
