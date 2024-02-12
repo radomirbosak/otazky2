@@ -1,6 +1,7 @@
 from termcolor import cprint
 
-from .modules import BrainFunctionActor, ExitActor, HardMapInterpreter
+from .modules import ExitActor, HardMapInterpreter
+from .modules.brain_multiple_functions_actor import BrainMFunctionActor
 
 
 def interpret(brain):
@@ -71,8 +72,10 @@ class Brain:
         # interpreters
         self.hardmap_intepreter = HardMapInterpreter(self)
         self.exit_actor = ExitActor(self)
-        BrainFunctionActor(self, list_modules, fname="list_modules")
-        BrainFunctionActor(self, list_hardcoded_intents, fname="list_commands")
+        self.mfunc = BrainMFunctionActor(self)
+        self.mfunc.add(list_modules, fname="list_modules")
+        self.mfunc.add(list_hardcoded_intents, fname="list_commands")
+
         self.init_modules()
 
     def init_modules(self):
