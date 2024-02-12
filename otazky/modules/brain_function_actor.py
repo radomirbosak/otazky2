@@ -1,7 +1,7 @@
 from .base import Module
 
 
-class BrainMFunctionActor(Module):
+class BrainFunctionActor(Module):
     def __init__(self, brain):
         super().__init__(brain)
         if not hasattr(brain, "functions"):
