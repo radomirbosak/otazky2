@@ -1,9 +1,4 @@
-from .modules import Module
-
-
-class Interpreter:
-    def __init__(self, brain):
-        brain.interpreters.append(self)
+from .base import Module
 
 
 class HardMapInterpreter(Module):
@@ -26,14 +21,3 @@ class HardMapInterpreter(Module):
 
     def __eq__(self, other):
         return self.__class__ == other.__class__
-
-
-class ExitActor(Module):
-    def can_act(self, intent):
-        return intent == "Exit"
-
-    def act(self, intent):
-        if not self.can_act(intent):
-            return
-        self.brain.think("Exiting")
-        self.brain.dead = True

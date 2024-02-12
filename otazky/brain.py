@@ -1,7 +1,6 @@
 from termcolor import cprint
 
-from .interpreters import ExitActor, HardMapInterpreter
-from .modules import BrainFunctionActor
+from .modules import BrainFunctionActor, ExitActor, HardMapInterpreter
 
 
 def interpret(brain):
