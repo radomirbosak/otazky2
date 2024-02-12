@@ -72,6 +72,7 @@ class Brain:
         self.hardmap_intepreter = HardMapInterpreter(self)
         self.exit_actor = ExitActor(self)
         BrainFunctionActor(self, list_modules, fname="list_modules")
+        BrainFunctionActor(self, list_hardcoded_intents, fname="list_commands")
         self.init_modules()
 
     def init_modules(self):
@@ -96,3 +97,12 @@ def list_modules(brain):
     module_names = (module.__class__.__name__ for module in brain.modules)
     reply = "Brain modules are: " + ", ".join(module_names)
     brain.say(reply)
+
+
+def list_hardcoded_intents(brain):
+    hardcoded_intents = brain.mem["last_message_intent_hardmap"].items()
+    # reply = ", ".join(f"{intent} activated by {command}" for command, intent in hardcoded_intents)
+    # brain.say(reply)
+    brain.say("These are the hardcoded commands that I know:")
+    for command, intent in hardcoded_intents:
+        brain.say(f"'{command}' which triggers the intent '{intent}'")

@@ -9,7 +9,7 @@ class BrainFunctionActor(Module):
 
     def init_module(self):
         intent = ("ExecuteBrainFunction", self.fname)
-        self.brain.hardmap_intepreter.add(f"/fn {self.fname}", intent)
+        self.brain.hardmap_intepreter.add(f"fn {self.fname}", intent)
 
     def can_act(self, intent):
         return intent == ("ExecuteBrainFunction", self.fname)
