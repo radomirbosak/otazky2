@@ -14,3 +14,6 @@ class Module:
 
     def act(self, intent):
         """Execute intent"""
+
+    def __str__(self):
+        return self.__class__.__name__

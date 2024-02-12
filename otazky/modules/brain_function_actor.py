@@ -16,3 +16,6 @@ class BrainFunctionActor(Module):
 
     def act(self, intent):
         self.fn(self.brain)
+
+    def __str__(self):
+        return f"{self.__class__.__name__}({self.fname})"

@@ -94,7 +94,7 @@ class Brain:
 
 
 def list_modules(brain):
-    module_names = (module.__class__.__name__ for module in brain.modules)
+    module_names = (str(module) for module in brain.modules)
     reply = "Brain modules are: " + ", ".join(module_names)
     brain.say(reply)
 
