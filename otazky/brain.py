@@ -72,6 +72,7 @@ class Brain:
         self.mfunc = BrainFunctionActor(self)
         self.mfunc.add(list_modules, fname="list_modules")
         self.mfunc.add(list_hardcoded_intents, fname="list_commands")
+        self.hardmap_intepreter.add("help", ("ExecuteBrainFunction", "list_commands"))
 
         self.init_modules()
 
