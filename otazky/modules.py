@@ -14,3 +14,21 @@ class Module:
 
     def act(self, intent):
         """Execute intent"""
+
+
+class BrainFunctionActor(Module):
+    def __init__(self, brain, fn, fname=None):
+        super().__init__(brain)
+        self.fn = fn
+        self.fname = fname or fn.__name__
+
+    def interpret(self):
+        if self.brain.last_message == f"/fn {self.fname}":
+            return ("ExecuteBrainFunction", self.fname)
+        return None
+
+    def can_act(self, intent):
+        return intent == ("ExecuteBrainFunction", self.fname)
+
+    def act(self, intent):
+        self.fn(self.brain)

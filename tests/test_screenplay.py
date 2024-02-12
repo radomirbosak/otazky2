@@ -14,7 +14,10 @@ def brain():
     return brain
 
 
-@mark.parametrize("scenario", ["exit.test", "cannot_understand.test"])
+SCENARIO_LIST = ["exit.test", "cannot_understand.test", "list_modules.test"]
+
+
+@mark.parametrize("scenario", SCENARIO_LIST)
 def test_something(brain, scenario):
     filename = Path("tests/") / scenario
 
