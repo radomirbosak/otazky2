@@ -14,7 +14,7 @@ def brain():
     return brain
 
 
-SCENARIO_LIST = ["exit.test", "cannot_understand.test", "list_modules.test"]
+SCENARIO_LIST = ["exit.sc", "cannot_understand.sc", "list_modules.sc"]
 
 
 @mark.parametrize("scenario", SCENARIO_LIST)
@@ -45,5 +45,5 @@ def test_something(brain, scenario):
 
 
 def test_replay(brain):
-    filename = Path("tests/") / "exit.test"
+    filename = Path("tests/") / "exit.sc"
     validate_scenario_file(filename, brain)
