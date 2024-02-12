@@ -11,9 +11,6 @@ def interpret(brain):
         intent = module.interpret()
         if intent is not None:
             return intent
-    # intent = brain.hardmap_intepreter.interpret()
-    # if intent is not None:
-    #     return intent
 
     # 2. give up
     return None
@@ -104,8 +101,6 @@ def list_modules(brain):
 
 def list_hardcoded_intents(brain):
     hardcoded_intents = brain.mem["last_message_intent_hardmap"].items()
-    # reply = ", ".join(f"{intent} activated by {command}" for command, intent in hardcoded_intents)
-    # brain.say(reply)
     brain.say("These are the hardcoded commands that I know:")
     for command, intent in hardcoded_intents:
         brain.say(f"'{command}' which triggers the intent '{intent}'")
