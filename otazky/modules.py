@@ -22,10 +22,9 @@ class BrainFunctionActor(Module):
         self.fn = fn
         self.fname = fname or fn.__name__
 
-    def interpret(self):
-        if self.brain.last_message == f"/fn {self.fname}":
-            return ("ExecuteBrainFunction", self.fname)
-        return None
+    def init_module(self):
+        intent = ("ExecuteBrainFunction", self.fname)
+        self.brain.hardmap_intepreter.add(f"/fn {self.fname}", intent)
 
     def can_act(self, intent):
         return intent == ("ExecuteBrainFunction", self.fname)
