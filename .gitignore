@@ -3,3 +3,4 @@ __pycache__/
 .~lock.*
 *.sublime-project
 *.sublime-workspace
+.idea/

@@ -65,7 +65,7 @@ def validate_scenario(scenario: list[ScenarioLine], brain):
         # all brain replies were consumed
         match scline.type:
             case ScenarioLineType.USER_PROMPT:
-                brain.last_message = text
+                brain.mem["last_message"] = text
                 brain.react()
                 said = brain.env.said_lines.copy()
 

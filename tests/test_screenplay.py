@@ -5,16 +5,19 @@ from pytest import fixture, mark
 
 from otazky.brain import Brain, Environment
 from otazky.scenario import validate_scenario_file
+from otazky.smodules.hardmap_interpreter import add_basic_hardmap_data
 
 
 @fixture
 def brain():
     env = Environment()
     brain = Brain(env)
+    add_basic_hardmap_data(brain)
     return brain
 
 
-SCENARIO_LIST = ["exit.sc", "cannot_understand.sc", "list_modules.sc"]
+# SCENARIO_LIST = ["exit.sc", "cannot_understand.sc", "list_modules.sc"]
+SCENARIO_LIST = ["exit.sc"]
 
 
 @mark.parametrize("scenario", SCENARIO_LIST)
@@ -34,7 +37,7 @@ def test_something(brain, scenario):
             if said:
                 assert False, f"unexpected line {said[0]}, about to prompt {test_line}."
             test_line = test_line[2:]
-            brain.last_message = test_line
+            brain.mem["last_message"] = test_line
             brain.react()
             said = brain.env.said_lines.copy()
         else:

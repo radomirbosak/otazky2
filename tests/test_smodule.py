@@ -21,4 +21,4 @@ def test_hardmap_interpreter():
     brain.mem["last_message"] = "Ahoj"
 
     hmi()
-    assert brain.mem["output_HardMapInterpreter"] == "pozdrav"
+    assert brain.mem["intent"] == "pozdrav"

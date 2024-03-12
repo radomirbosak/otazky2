@@ -3,6 +3,9 @@ class SModule:
         self.brain = brain
         brain.smodules.append(self)
 
+    def init(self):
+        pass
+
 
 class HardMapInterpreter(SModule):
 
@@ -17,8 +20,10 @@ class HardMapInterpreter(SModule):
         mem = self.brain.mem
         hardmap = mem.get("hardmap", {})
         last_message = mem.get("last_message")
+        # self.brain.think(f"last_message is {last_message}")
+        # self.brain.think(f"hardmap is {hardmap}")
         if last_message in hardmap:
-            mem["output_HardMapInterpreter"] = hardmap[last_message]
+            mem["intent"] = hardmap[last_message]
 
 
 class ExitActor(SModule):

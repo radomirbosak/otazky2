@@ -5,6 +5,7 @@ from pathlib import Path
 
 from otazky.brain import Brain, Environment
 from otazky.scenario import validate_scenario_file
+from otazky.smodules.hardmap_interpreter import add_basic_hardmap_data
 
 
 def parse_args():
@@ -18,6 +19,8 @@ def main():
 
     env = Environment()
     brain = Brain(env)
+
+    add_basic_hardmap_data(brain)
 
     validate_scenario_file(args.prompt_file, brain)
     print("The replay ended successfully!")

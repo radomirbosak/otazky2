@@ -10,7 +10,7 @@ def main():
 
     while not brain.dead:
         prompt = input("> ")
-        brain.last_message = prompt
+        brain.mem["last_message"] = prompt
         brain.react()
 
 

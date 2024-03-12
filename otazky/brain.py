@@ -1,7 +1,8 @@
 from termcolor import cprint
 
-from .modules import ExitActor, HardMapInterpreter
-from .modules.brain_function_actor import BrainFunctionActor
+# from .modules import ExitActor, HardMapInterpreter
+# from .modules.brain_function_actor import BrainFunctionActor
+from .smodules.hardmap_interpreter import ExitActor, HardMapInterpreter
 
 
 def interpret(brain):
@@ -59,8 +60,8 @@ class Brain:
     def __init__(self, env):
         self.env = env
         self.dead = False
-        self.mem = {}
-        self.last_message = None
+        self.mem = {"last_message": None}
+        # self.last_message = None
         self.known_functions = []
         self.interpret = interpret
         self.act = act
@@ -70,10 +71,10 @@ class Brain:
         # interpreters
         self.hardmap_intepreter = HardMapInterpreter(self)
         self.exit_actor = ExitActor(self)
-        self.mfunc = BrainFunctionActor(self)
-        self.mfunc.add(list_modules, fname="list_modules")
-        self.mfunc.add(list_hardcoded_intents, fname="list_commands")
-        self.hardmap_intepreter.add("help", ("ExecuteBrainFunction", "list_commands"))
+        # self.mfunc = BrainFunctionActor(self)
+        # self.mfunc.add(list_modules, fname="list_modules")
+        # self.mfunc.add(list_hardcoded_intents, fname="list_commands")
+        # self.hardmap_intepreter.add("help", ("ExecuteBrainFunction", "list_commands"))
 
         self.init_modules()
 
@@ -84,11 +85,17 @@ class Brain:
             smodule.init()
 
     def react(self):
-        # find intent
-        intent = self.interpret(self)
-        self.think(f"The intent is {intent}")
-        # respond to intent
-        self.act(self, intent)
+        # reset stop condition for smodule activation
+        self.mem["done"] = False
+        iterations = 0
+        max_iterations = 2
+        while not self.mem["done"]:
+            if iterations >= max_iterations:
+                self.think(f"Not done after {max_iterations} iterations")
+                break
+            for smodule in self.smodules:
+                smodule()
+            iterations += 1
 
     def say(self, text):
         self.env.say(text)
