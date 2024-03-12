@@ -65,6 +65,7 @@ class Brain:
         self.interpret = interpret
         self.act = act
         self.modules = []
+        self.smodules = []
 
         # interpreters
         self.hardmap_intepreter = HardMapInterpreter(self)
@@ -79,6 +80,8 @@ class Brain:
     def init_modules(self):
         for interpreter in self.modules:
             interpreter.init_module()
+        for smodule in self.smodules:
+            smodule.init()
 
     def react(self):
         # find intent
