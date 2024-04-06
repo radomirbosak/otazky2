@@ -32,7 +32,7 @@ def act(brain, intent):
         brain.say(f"Sorry, I don't know how to act on intent {intent}")
         return
 
-    if len(actionable_modules) >= 2:
+    if len(actionable_modules) >= 2:  # noqa: PLR2004
         brain.think(
             "Two or more modules can act on this intent. I will pick the first one."
         )
@@ -52,7 +52,7 @@ class Environment:
         print(text)
         self.said_lines.append(text)
 
-    def think(self, text):
+    def think(self, text):  # noqa: PLR6301
         cprint(f"({text})", "dark_grey")
 
 

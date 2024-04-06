@@ -36,8 +36,8 @@ def test_something(brain, scenario):
         elif test_line.startswith("> "):
             if said:
                 assert False, f"unexpected line {said[0]}, about to prompt {test_line}."
-            test_line = test_line[2:]
-            brain.mem["last_message"] = test_line
+            test_line_clean = test_line[2:]
+            brain.mem["last_message"] = test_line_clean
             brain.react()
             said = brain.env.said_lines.copy()
         else:

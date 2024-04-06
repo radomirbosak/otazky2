@@ -16,7 +16,7 @@ class BrainFunctionActor(Module):
     def can_act(self, intent):
         if not isinstance(intent, tuple):
             return False
-        if len(intent) != 2:
+        if len(intent) != 2:  # noqa: PLR2004
             return False
         match intent:
             case ("ExecuteBrainFunction", fname):

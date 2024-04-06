@@ -52,7 +52,8 @@ def validate_scenario(scenario: list[ScenarioLine], brain):
     for scline in scenario:
         text = scline.line
 
-        # is there are unconsumed brain texts, the next scenario line must be BRAIN_REPLY and must match
+        # is there are unconsumed brain texts,
+        # the next scenario line must be BRAIN_REPLY and must match
         if said:
             said_line = said.pop(0)
             if scline.type != ScenarioLineType.BRAIN_REPLY:

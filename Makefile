@@ -2,7 +2,7 @@
 
 test:
 	pytest
-	pylint otazky/ tests/ *.py
+	ruff check .
 
 format:
 	 black otazky/ tests/ *.py

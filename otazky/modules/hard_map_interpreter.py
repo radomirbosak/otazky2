@@ -21,3 +21,6 @@ class HardMapInterpreter(Module):
 
     def __eq__(self, other):
         return self.__class__ == other.__class__
+
+    def __hash__(self):
+        return hash(self.__class__)
