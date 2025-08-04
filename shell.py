@@ -2,11 +2,13 @@
 
 
 from otazky.brain import Brain, Environment
+from otazky.smodules.hardmap_interpreter import add_basic_hardmap_data
 
 
 def main():
     env = Environment()
     brain = Brain(env)
+    add_basic_hardmap_data(brain)
 
     while not brain.dead:
         prompt = input("> ")
