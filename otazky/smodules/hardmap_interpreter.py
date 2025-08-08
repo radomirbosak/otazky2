@@ -71,5 +71,15 @@ class AdderActor(SModule):
         arg1 = mem.get("arg1")
         arg2 = mem.get("arg2")
         result = arg1 + arg2
-        self.brain.say(f"Result is {result}")
-        mem["done"] = True
+        mem["result"] = result
+
+
+class CallPrintActor(SModule):
+
+    def __call__(self):
+        mem = self.brain.mem
+        intent = mem.get("intent")
+        result = mem.get("result")
+        if intent == "Call" and result is not None:
+            self.brain.say(f"Result is {result}")
+            mem["done"] = True

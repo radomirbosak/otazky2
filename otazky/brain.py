@@ -5,6 +5,7 @@ from termcolor import cprint
 from .smodules.hardmap_interpreter import (
     AdderActor,
     CallInterpreter,
+    CallPrintActor,
     ExitActor,
     HardMapInterpreter,
 )
@@ -76,6 +77,7 @@ class Brain:
         self.call_interpreter = CallInterpreter(self)
         self.exit_actor = ExitActor(self)
         self.adder_actor = AdderActor(self)
+        self.call_print_actor = CallPrintActor(self)
         # self.mfunc = BrainFunctionActor(self)
         # self.mfunc.add(list_modules, fname="list_modules")
         # self.mfunc.add(list_hardcoded_intents, fname="list_commands")
@@ -101,6 +103,7 @@ class Brain:
             for smodule in self.smodules:
                 smodule()
             iterations += 1
+        self.mem["intent"] = None
 
     def say(self, text):
         self.env.say(text)
