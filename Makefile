@@ -5,5 +5,5 @@ test:
 	ruff check .
 
 format:
-	 black otazky/ tests/ *.py
-	 isort otazky/ tests/ *.py
+	 black --line-length 100 otazky/ tests/ *.py
+	 isort --profile black otazky/ tests/ *.py
