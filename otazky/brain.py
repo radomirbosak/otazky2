@@ -2,7 +2,12 @@ from termcolor import cprint
 
 # from .modules import ExitActor, HardMapInterpreter
 # from .modules.brain_function_actor import BrainFunctionActor
-from .smodules.hardmap_interpreter import ExitActor, HardMapInterpreter
+from .smodules.hardmap_interpreter import (
+    AdderActor,
+    CallInterpreter,
+    ExitActor,
+    HardMapInterpreter,
+)
 
 
 def interpret(brain):
@@ -33,9 +38,7 @@ def act(brain, intent):
         return
 
     if len(actionable_modules) >= 2:  # noqa: PLR2004
-        brain.think(
-            "Two or more modules can act on this intent. I will pick the first one."
-        )
+        brain.think("Two or more modules can act on this intent. I will pick the first one.")
 
     winner_module = actionable_modules[0]
     winner_module.act(intent)
@@ -70,7 +73,9 @@ class Brain:
 
         # interpreters
         self.hardmap_intepreter = HardMapInterpreter(self)
+        self.call_interpreter = CallInterpreter(self)
         self.exit_actor = ExitActor(self)
+        self.adder_actor = AdderActor(self)
         # self.mfunc = BrainFunctionActor(self)
         # self.mfunc.add(list_modules, fname="list_modules")
         # self.mfunc.add(list_hardcoded_intents, fname="list_commands")

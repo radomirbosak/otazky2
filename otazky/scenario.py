@@ -33,9 +33,7 @@ class ScenarioLine:
 
 
 def load_scenario_file(scenario_file: Path) -> list[ScenarioLine]:
-    return [
-        ScenarioLine.from_str(line) for line in scenario_file.read_text().splitlines()
-    ]
+    return [ScenarioLine.from_str(line) for line in scenario_file.read_text().splitlines()]
 
 
 def validate_scenario_file(scenario_file, brain):
