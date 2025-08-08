@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import readline
+import readline  # noqa: F401
 
 from otazky.brain import Brain, Environment
 from otazky.smodules.hardmap_interpreter import add_basic_hardmap_data

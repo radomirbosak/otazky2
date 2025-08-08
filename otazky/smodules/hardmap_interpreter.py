@@ -43,6 +43,7 @@ def add_basic_hardmap_data(brain):
 
 
 class CallInterpreter(SModule):
+    MAX_ARGS = 3
 
     def __call__(self):
         mem = self.brain.mem
@@ -53,7 +54,7 @@ class CallInterpreter(SModule):
             call_parts = last_message.split()
             _, call_fn, *args = call_parts
             mem["call_fn"] = call_fn
-            if len(args) > 3:
+            if len(args) > self.MAX_ARGS:
                 raise RuntimeError("Calling function with more than 3 arguments is not supported")
             for idx, arg in enumerate(args, start=1):
                 mem[f"arg{idx}"] = arg

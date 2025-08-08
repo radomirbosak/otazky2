@@ -2,7 +2,7 @@
 
 test:
 	pytest
-	ruff check .
+	ruff check --line-length 100 .
 
 format:
 	 black --line-length 100 otazky/ tests/ *.py
