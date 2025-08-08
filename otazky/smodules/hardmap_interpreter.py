@@ -58,16 +58,21 @@ class CallInterpreter(SModule):
     MAX_ARGS = 3
 
     def __call__(self):
-        if self.last_message.startswith("call"):
-            self.intent = "Call"
+        if not self.last_message.startswith("call"):
+            return
 
-            call_parts = self.last_message.split()
-            _, call_fn, *args = call_parts
-            self.mem["call_fn"] = call_fn
-            if len(args) > self.MAX_ARGS:
-                raise RuntimeError("Calling function with more than 3 arguments is not supported")
-            for idx, arg in enumerate(args, start=1):
-                self.mem[f"arg{idx}"] = arg
+        # set intent
+        self.intent = "Call"
+
+        # split prompt by spaces and save it to memory
+        # as function and its arguments
+        call_parts = self.last_message.split()
+        _, call_fn, *args = call_parts
+        self.mem["call_fn"] = call_fn
+        if len(args) > self.MAX_ARGS:
+            raise RuntimeError("Calling function with more than 3 arguments is not supported")
+        for idx, arg in enumerate(args, start=1):
+            self.mem[f"arg{idx}"] = arg
 
 
 class AdderActor(SModule):
