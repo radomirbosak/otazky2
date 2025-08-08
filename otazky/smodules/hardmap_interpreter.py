@@ -2,37 +2,49 @@ class SModule:
     def __init__(self, brain):
         self.brain = brain
         brain.smodules.append(self)
+        self.mem = self.brain.mem
+        self.memget = self.brain.mem.get
 
     def init(self):
         pass
+
+    def setdone(self):
+        self.mem["done"] = True
+
+    @property
+    def intent(self):
+        return self.memget("intent")
+
+    @intent.setter
+    def intent(self, value):
+        self.mem["intent"] = value
+
+    @property
+    def last_message(self):
+        return self.memget("last_message")
 
 
 class HardMapInterpreter(SModule):
 
     def init(self):
-        self.brain.mem.setdefault("hardmap", {})
+        self.mem.setdefault("hardmap", {})
 
     def __call__(self):
         """
         Take from last_message
         insert into intent
         """
-        mem = self.brain.mem
-        hardmap = mem.get("hardmap", {})
-        last_message = mem.get("last_message")
-        # self.brain.think(f"last_message is {last_message}")
-        # self.brain.think(f"hardmap is {hardmap}")
-        if last_message in hardmap:
-            mem["intent"] = hardmap[last_message]
+        hardmap = self.memget("hardmap", {})
+        if self.last_message in hardmap:
+            self.intent = hardmap[self.last_message]
 
 
 class ExitActor(SModule):
 
     def __call__(self):
-        mem = self.brain.mem
-        if mem.get("intent") == "Exit":
+        if self.intent == "Exit":
             self.brain.dead = True
-            mem["done"] = True
+            self.setdone()
 
 
 def add_basic_hardmap_data(brain):
@@ -46,41 +58,34 @@ class CallInterpreter(SModule):
     MAX_ARGS = 3
 
     def __call__(self):
-        mem = self.brain.mem
-        last_message = mem.get("last_message")
-        if last_message.startswith("call"):
-            mem["intent"] = "Call"
+        if self.last_message.startswith("call"):
+            self.intent = "Call"
 
-            call_parts = last_message.split()
+            call_parts = self.last_message.split()
             _, call_fn, *args = call_parts
-            mem["call_fn"] = call_fn
+            self.mem["call_fn"] = call_fn
             if len(args) > self.MAX_ARGS:
                 raise RuntimeError("Calling function with more than 3 arguments is not supported")
             for idx, arg in enumerate(args, start=1):
-                mem[f"arg{idx}"] = arg
+                self.mem[f"arg{idx}"] = arg
 
 
 class AdderActor(SModule):
 
     def __call__(self):
-        mem = self.brain.mem
-        intent = mem.get("intent")
-        call_fn = mem.get("call_fn")
-        if not (intent == "Call" and call_fn == "add"):
+        if not (self.intent == "Call" and self.memget("call_fn") == "add"):
             return
 
-        arg1 = mem.get("arg1")
-        arg2 = mem.get("arg2")
+        arg1 = self.memget("arg1")
+        arg2 = self.memget("arg2")
         result = arg1 + arg2
-        mem["result"] = result
+        self.mem["result"] = result
 
 
 class CallPrintActor(SModule):
 
     def __call__(self):
-        mem = self.brain.mem
-        intent = mem.get("intent")
-        result = mem.get("result")
-        if intent == "Call" and result is not None:
+        result = self.memget("result")
+        if self.intent == "Call" and result is not None:
             self.brain.say(f"Result is {result}")
-            mem["done"] = True
+            self.setdone()
